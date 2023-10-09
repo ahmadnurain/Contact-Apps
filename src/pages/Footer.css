@@ -1,0 +1,8 @@
+.footer {
+  display: flex;
+  justify-content: end;
+}
+
+.button {
+  margin: 1rem 1rem;
+}

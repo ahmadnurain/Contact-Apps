@@ -1,0 +1,23 @@
+.title {
+  padding: 35px;
+  font-size: 30px;
+}
+
+img {
+  width: 70px;
+  margin-left: 3rem;
+  border-radius: 20%;
+}
+.card-ion {
+  display: flex;
+  margin: 1rem;
+  border-radius: 70px;
+  padding: 1rem;
+}
+.content {
+  margin-left: 2rem;
+}
+
+.header {
+  display: flex;
+}
