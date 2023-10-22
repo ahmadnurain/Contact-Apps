@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IonInput, IonButton, IonItem, IonCard } from "@ionic/react";
 import "./AddContact.css";
-import { CustomMaxlengthModule } from "custom-maxlength";
 import { useHistory } from "react-router";
 
 function AddContact() {

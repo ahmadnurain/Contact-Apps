@@ -1,20 +1,30 @@
-import { IonPage, IonTitle, IonCard, IonContent } from "@ionic/react";
+import { IonPage, IonTitle, IonCard, IonContent, IonLoading } from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import "./Home.css";
 
 const Home: React.FC = () => {
+  const [data, setData] = useState<MyDataType[]>([]);
+  const [loading, setLoading] = useState(true);
+
   interface MyDataType {
     id: number;
-    title: number;
-    userId: number;
+    nama: string;
+    nomorHp: string;
+    foto: string;
   }
-  const [data, setData] = useState<MyDataType[]>([]);
+
   useEffect(() => {
-    fetch("https://contact-apps.up.railway.app/api/v1/contact")
+    fetch('/api/v1/contact')
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -27,13 +37,22 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        <IonCard className="card-ion">
-          <img src="/src/image/john-doe.jpg" alt="" />
-          <div className="content">
-            <h1>Jhon Doe</h1>
-            <p>0812312312</p>
-          </div>
-        </IonCard>
+        {loading ? (
+          <IonLoading isOpen={loading} message={"Loading..."} />
+        ) : (
+          data.map((contact) => (
+            <IonCard className="card-ion" key={contact.id}>
+              {/* Decode the base64 image and display it */}
+              <img
+                src={`/api/v1/contact/${contact.id}/foto`} alt={contact.nama}
+              />
+              <div className="content">
+                <h1>{contact.nama}</h1>
+                <p>{contact.nomorHp}</p>
+              </div>
+            </IonCard>
+          ))
+        )}
       </IonContent>
     </IonPage>
   );
