@@ -1,4 +1,10 @@
-import { IonPage, IonTitle, IonCard, IonContent, IonLoading } from "@ionic/react";
+import {
+  IonPage,
+  IonTitle,
+  IonCard,
+  IonContent,
+  IonLoading,
+} from "@ionic/react";
 import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import "./Home.css";
@@ -9,16 +15,21 @@ const Home: React.FC = () => {
 
   interface MyDataType {
     id: number;
-    nama: string;
-    nomorHp: string;
-    foto: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    image: string;
+    email: string;
   }
 
   useEffect(() => {
-    fetch('/api/v1/contact')
+    fetch('https://dummyjson.com/users')
       .then((response) => response.json())
-      .then((data) => {
-        setData(data);
+      .then((responseData) => {
+        // Memastikan data yang diakses adalah properti "users"
+        const userData = responseData.users || [];
+
+        setData(userData);
         setLoading(false);
       })
       .catch((error) => {
@@ -29,9 +40,11 @@ const Home: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent color={"medium"}>
+      <div className="title">
+        Contacts
+      </div>
+      <IonContent>
         <div className="header">
-          <IonTitle className="title">Contacts</IonTitle>
           <div className="footer">
             <Footer />
           </div>
@@ -40,15 +53,13 @@ const Home: React.FC = () => {
         {loading ? (
           <IonLoading isOpen={loading} message={"Loading..."} />
         ) : (
-          data.map((contact) => (
-            <IonCard className="card-ion" key={contact.id}>
-              {/* Decode the base64 image and display it */}
-              <img
-                src={`/api/v1/contact/${contact.id}/foto`} alt={contact.nama}
-              />
+          data.map((user) => (
+            <IonCard key={user.id} className="card-ion">  
+              <img src={user.image} alt={user.firstName + " " + user.lastName} />
               <div className="content">
-                <h1>{contact.nama}</h1>
-                <p>{contact.nomorHp}</p>
+                <h1>{user.firstName + " " + user.lastName}</h1>
+                <p>{user.phone}</p>
+                <p>{user.email}</p>
               </div>
             </IonCard>
           ))
